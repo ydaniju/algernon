@@ -1,5 +1,9 @@
 require "gilgamesh/version"
 
 module Gilgamesh
-  # Your code goes here...
+  class Application
+    def call(env)
+      [200, { "Content-Type" => "text/html" }, ["Hello"]]
+    end
+  end
 end
