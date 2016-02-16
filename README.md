@@ -1,5 +1,7 @@
 # Algernon
 
+[![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/algernon/badge.svg?branch=ft-rackup-with-todo-113875909)](https://coveralls.io/github/andela-ydaniju/algernon?branch=ft-rackup-with-todo-113875909) [![Build Status](https://travis-ci.org/andela-ydaniju/algernon.svg?branch=master)](https://travis-ci.org/andela-ydaniju/algernon) [![Code Climate](https://codeclimate.com/github/andela-ydaniju/algernon/badges/gpa.svg)](https://codeclimate.com/github/andela-ydaniju/algernon)
+
 Algernon is a Ruby MVC web framework.
 
 ## Installation
