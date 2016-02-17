@@ -1,17 +1,17 @@
 # coding: utf-8
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "gilgamesh/version"
+require "algernon/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "gilgamesh"
-  spec.version       = Gilgamesh::VERSION
+  spec.name          = "algernon"
+  spec.version       = Algernon::VERSION
   spec.authors       = ["andela-ydaniju"]
   spec.email         = ["yusuf.daniju@andela.com"]
 
-  spec.summary       = "Gilgamesh is a mini MVC framework built on Ruby."
-  spec.description   = "Gilgamesh is a mini MVC framework built on Ruby."
-  spec.homepage      = "https://github.com/andela-ydaniju/gilgamesh."
+  spec.summary       = "Algernon is a mini MVC framework built on Ruby."
+  spec.description   = "Algernon is a mini MVC framework built on Ruby."
+  spec.homepage      = "https://github.com/andela-ydaniju/algernon."
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
