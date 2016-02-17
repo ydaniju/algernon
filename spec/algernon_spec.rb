@@ -1,11 +1,23 @@
 require "spec_helper"
 
 describe Algernon do
-  it "has a version number" do
-    expect(Algernon::VERSION).not_to be nil
+  include Rack::Test::Methods
+
+  def app
+    Algernon::Application.new
   end
 
-  it "has a call method with an array" do
-    expect(Algernon::Application.new.call("").class).to eq Array
+  it "Application not to be null" do
+    expect(app).not_to be nil
+  end
+
+  # it "Application not to be null" do
+  #   env = {}
+  #   response = app.call(env)
+  #   expect(response.status).to be 200
+  # end
+
+  it "has a version number" do
+    expect(Algernon::VERSION).not_to be nil
   end
 end
