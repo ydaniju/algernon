@@ -1,7 +1,7 @@
 # Gilgamesh
-[![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/gilgamesh/badge.svg?branch=master)](https://coveralls.io/github/andela-ydaniju/gilgamesh?branch=master) [![Build Status](https://travis-ci.org/andela-ydaniju/gilgamesh.svg?branch=master)](https://travis-ci.org/andela-ydaniju/gilgamesh)
+[![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/gilgamesh/badge.svg?branch=master)](https://coveralls.io/github/andela-ydaniju/gilgamesh?branch=master) [![Build Status](https://travis-ci.org/andela-ydaniju/gilgamesh.svg?branch=master)](https://travis-ci.org/andela-ydaniju/gilgamesh) [![Code Climate](https://codeclimate.com/github/andela-ydaniju/gilgamesh/badges/gpa.svg)](https://codeclimate.com/github/andela-ydaniju/gilgamesh)
 
-Gilgamesh is Ruby MVC web framework.
+Gilgamesh is a Ruby MVC web framework.
 
 ## Installation
 
