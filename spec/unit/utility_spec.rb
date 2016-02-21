@@ -17,8 +17,8 @@ describe "Utility Methods" do
     context "JotterController" do
       it { expect("JotterController".snakify).to eq "jotter_controller" }
     end
-    context "Jotter8Controller" do
-      it { expect("Jotter8Controller".snakify).to eq "jotter8_controller" }
+    context "Jotter90Controller" do
+      it { expect("Jotter90Controller".snakify).to eq "jotter90_controller" }
     end
     context "LapisTodo::Person" do
       it { expect("LapisTodo::Person".snakify).to eq "lapis_todo/person" }
@@ -51,6 +51,52 @@ describe "Utility Methods" do
 
     context "`Array`" do
       it { expect("Array".constantify).to eq Array }
+    end
+  end
+
+  context "#pluralize" do
+    context "sail" do
+      it { expect("sail".pluralize).to eq "sails" }
+    end
+
+    context "buzz" do
+      it { expect("buzz".pluralize).to eq "buzzes" }
+    end
+
+    context "carry" do
+      it { expect("carry".pluralize).to eq "carries" }
+    end
+
+    context "toy" do
+      it { expect("toy".pluralize).to eq "toys" }
+    end
+
+    context "dwarf" do
+      it { expect("dwarf".pluralize).to eq "dwarves" }
+    end
+
+    context "analysis" do
+      it { expect("analysis".pluralize).to eq "analyses" }
+    end
+
+    context "stadium" do
+      it { expect("stadium".pluralize).to eq "stadia" }
+    end
+
+    context "criterion" do
+      it { expect("criterion".pluralize).to eq "criteria" }
+    end
+
+    context "formula" do
+      it { expect("formula".pluralize).to eq "formulae" }
+    end
+
+    context "locus" do
+      it { expect("locus".pluralize).to eq "loci" }
+    end
+
+    context "bureau" do
+      it { expect("bureau".pluralize).to eq "bureaux" }
     end
   end
 end
