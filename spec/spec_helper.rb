@@ -6,5 +6,3 @@ require "algernon"
 require "utility/utility"
 require "rspec"
 require "rack/test"
-
-ENV["RACK_ENV"] = "test"
