@@ -5,14 +5,16 @@ module Algernon
         instance_eval(&block)
       end
 
-      def get(path, to:)
-        path = "/#{path}" unless path[0] = "/"
-        class_and_method = controller_and_action(to)
-        @route_info = { path: path,
-                        match: match_for(path),
-                        class_and_method: class_and_method
+      [:get, :post, :put, :patch, :delete].each do |http_verb|
+        define_method(http_verb) do |path, to:|
+          path = "/#{path}" unless path[0] = "/"
+          class_and_method = controller_and_action(to)
+          @route_info = { path: path,
+                          match: match_for(path),
+                          class_and_method: class_and_method
                       }
-        endpoints[:get] << @route_info
+          endpoints[:get] << @route_info
+        end
       end
 
       def root(destination)
