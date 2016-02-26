@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module Algernon
-  module Route
+  module Routes
     class Router
       attr_reader :route_info
 
@@ -13,9 +13,9 @@ module Algernon
   end
 end
 
-describe Algernon::Route::Router do
+describe Algernon::Routes::Router do
   def draw(&block)
-    router = Algernon::Route::Router.new
+    router = Algernon::Routes::Router.new
     router.draw(&block).route_info
   end
 
@@ -52,7 +52,7 @@ describe Algernon::Route::Router do
   end
 
   context "get '/photos/:id/edit', to: 'photos#edit'" do
-    subject do
+    def endpoint
       draw { get "/photos/:id/edit", to: "photos#edit" }
     end
 
@@ -62,11 +62,11 @@ describe Algernon::Route::Router do
                    class_and_method: ["PhotosController", :edit]
                  }
 
-    it { is_expected.to eq route_info }
+    it { expect(endpoint).to eq route_info }
   end
 
   context "get 'album/:album_id/photos/:photo_id', to: 'photos#album_photo'" do
-    subject do
+    def endpoint
       draw { get "/album/:album_id/photos/:photo_id", to: "photos#album_photo" }
     end
 
@@ -76,6 +76,6 @@ describe Algernon::Route::Router do
                    class_and_method: ["PhotosController", :album_photo]
                  }
 
-    it { is_expected.to eq route_info }
+    it { expect(endpoint).to eq route_info }
   end
 end
