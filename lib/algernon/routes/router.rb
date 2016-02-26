@@ -1,5 +1,5 @@
 module Algernon
-  module Route
+  module Routes
     class Router
       def draw(&block)
         instance_eval(&block)
