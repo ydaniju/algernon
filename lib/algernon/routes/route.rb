@@ -1,18 +1,18 @@
 module Algernon
   module Routes
     class Route
-      attr_reader :klass_name, :request, :method_name
-      def initialize(request, klass_and_method)
-        @klass_name, @method_name = klass_and_method
+      attr_reader :class_name, :request, :method
+      def initialize(request, class_and_method)
+        @class_name, @method = class_and_method
         @request = request
       end
 
-      def klass
-        klass_name.constantize
+      def controller_class
+        class_name.constantize
       end
 
       def dispatch
-        klass.new(request).send(method_name)
+        controller_class.new(request).send(method_name)
       end
     end
   end
