@@ -12,7 +12,7 @@ module Algernon
       end
 
       def dispatch
-        controller_class.new(request).send(method_name)
+        controller_class.new(request).send(method)
       end
     end
   end

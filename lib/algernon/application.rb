@@ -8,7 +8,7 @@ module Algernon
 
     def call(env)
       @request = Rack::Request.new(env)
-      route = finder.map_to_route(@request)
+      route = finder.locate_route(@request)
       if route
         response = route.dispatch
         return [200, { "Content-Type" => "text/html" }, [response]]
