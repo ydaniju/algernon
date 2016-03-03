@@ -3,8 +3,10 @@ require "spec_helper"
 describe Algernon do
   include Rack::Test::Methods
 
+  LapisTodoApp = Algernon::Application.new
   def app
-    Algernon::Application.new
+    require "lapis_todo/config/routes.rb"
+    LapisTodoApp
   end
 
   it "returns a list of all my tasks" do
