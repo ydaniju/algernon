@@ -1,7 +1,7 @@
 module Algernon
   module Routes
     class Finder
-      def intialize(endpoints)
+      def initialize(endpoints)
         @endpoints = endpoints
       end
 
