@@ -13,7 +13,7 @@ module Algernon
                           match: match_for(path),
                           class_and_method: class_and_method
                       }
-          endpoints[:get] << @route_info
+          endpoints[http_verb] << @route_info
         end
       end
 
