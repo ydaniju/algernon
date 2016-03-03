@@ -1,0 +1,7 @@
+require "algernon/version"
+require "algernon/dependencies"
+require "utility/utility"
+require "algernon/routes/router"
+require "algernon/routes/route"
+require "algernon/routes/finder"
+require "algernon/application"
