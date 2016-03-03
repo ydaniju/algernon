@@ -8,7 +8,7 @@ module Algernon
       end
 
       def controller_class
-        class_name.constantize
+        class_name.constantify
       end
 
       def dispatch

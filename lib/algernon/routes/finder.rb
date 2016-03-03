@@ -16,7 +16,7 @@ module Algernon
       end
 
       def find_path_with_pattern(path, endpoint)
-        regex, placeholders = endpoint[:pattern]
+        regex, placeholders = endpoint[:match]
         if path =~ regex
           match_data = Regexp.last_match
           placeholders.each do |placeholder|
