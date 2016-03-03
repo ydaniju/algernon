@@ -1,23 +1,21 @@
 module Algernon
-  class Application
-    attr_reader :routes
-
-    def initialize
-      @routes = Routes::Router.new
-    end
-
+   class Application
     def call(env)
-      @request = Rack::Request.new(env)
-      route = finder.locate_route(@request)
-      if route
-        response = route.dispatch
-        return [200, { "Content-Type" => "text/html" }, [response]]
-      end
-      [404, {}, ["Route not found"]]
+      @req = Rack::Request.new(env)
+      path = @req.path_info
+      request_method = @req.request_method.downcase
+      return [500, {}, []] if path == "/favicon.ico"
+      controller, action = get_controller_and_action_for(path, request_method)
+      response = controller.new.send(action)
+      [200, {"Content-Type" => "text/html"}, [response]]
     end
-
-    def finder
-      @finder ||= Routes::Finder.new(routes.endpoints)
+ 
+    def get_controller_and_action_for(path, verb)
+      _, controller, action, others = path.split("/", 4)
+      require "#{controller.downcase}_controller.rb"
+      controller = Object.const_get(controller.capitalize! + "Controller")
+      action = action.nil? ? verb : "#{verb}_#{action}"
+      [controller, action]
     end
   end
 end
