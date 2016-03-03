@@ -16,12 +16,6 @@ describe Algernon do
     expect(last_response.body).to eq(todos.to_s)
   end
 
-  it "returns first item in my tasks" do
-    get "/tasks/first"
-    expect(last_response).to be_ok
-    expect(last_response.body).to eq("complete Algernon")
-  end
-
   it "can respond to post request" do
     post "/tasks"
     expect(last_response).to be_ok
@@ -29,13 +23,13 @@ describe Algernon do
   end
 
   it "can respond to put request" do
-    put "/tasks"
+    put "/tasks/:id"
     expect(last_response).to be_ok
     expect(last_response.body).to eq("Put complete Algernon")
   end
 
   it "can respond to delete request" do
-    delete "/tasks"
+    delete "/tasks/:id"
     expect(last_response).to be_ok
     expect(last_response.body).to eq("Delete complete Algernon")
   end
