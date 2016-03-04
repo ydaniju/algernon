@@ -14,8 +14,6 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/andela-ydaniju/algernon."
   spec.license       = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
-  # delete this section to allow pushing this gem to any host.
   if spec.respond_to?(:metadata)
     spec.metadata["allowed_push_host"] = "RubyGems.org"
   else
@@ -36,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rack-test", "~> 0.6"
 
   spec.add_runtime_dependency "rack", "~> 1.6.4"
+  spec.add_runtime_dependency "erubis"
   spec.add_runtime_dependency "pry"
   spec.add_runtime_dependency "pry-nav"
 end

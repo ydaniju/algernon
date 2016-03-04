@@ -19,6 +19,10 @@ class TasksController
     "Put complete Algernon"
   end
 
+  def patch
+    "put pray"
+  end
+
   def destroy
     "Delete complete Algernon"
   end
