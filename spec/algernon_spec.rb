@@ -16,6 +16,12 @@ describe Algernon do
     expect(last_response.body).to eq(todos.to_s)
   end
 
+  it "can respond to get request" do
+    get "/tasks/:id"
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq("complete Algernon")
+  end
+
   it "can respond to post request" do
     post "/tasks"
     expect(last_response).to be_ok
@@ -28,10 +34,21 @@ describe Algernon do
     expect(last_response.body).to eq("Put complete Algernon")
   end
 
+  it "can respond to put request" do
+    patch "/tasks/:id"
+    expect(last_response).to be_ok
+    expect(last_response.body).to eq("put pray")
+  end
+
   it "can respond to delete request" do
     delete "/tasks/:id"
     expect(last_response).to be_ok
     expect(last_response.body).to eq("Delete complete Algernon")
+  end
+
+  it "returns route not found if no match" do
+    get "/taskee/unavailable"
+    expect(last_response.body).to eq("Route not found")
   end
 
   it "Application not to be null" do
