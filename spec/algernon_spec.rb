@@ -5,7 +5,7 @@ describe Algernon do
 
   LapisTodoApp = Algernon::Application.new
   def app
-    require "lapis_todo/config/routes.rb"
+    require "integration/lapis_todo/config/routes.rb"
     LapisTodoApp
   end
 
