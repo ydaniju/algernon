@@ -31,4 +31,9 @@ class String
 
     self
   end
+
+  def path_format!
+    replace(self[0..-2]) if self[-1] == "/"
+    replace("/" + self) if self[0] != "/"
+  end
 end
