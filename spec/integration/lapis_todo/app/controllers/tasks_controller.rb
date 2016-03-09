@@ -1,29 +1,23 @@
-class TasksController
-  def initialize(request)
-    @request = request
-  end
-
+class TasksController < ApplicationController
   def index
-    ["complete Algernon", "pray", "Stay happy"]
   end
 
-  def show
-    "complete Algernon"
+  def new
+    @task = Task.new
   end
 
   def create
-    "Post nothing"
+    task = Task.create(task_params)
+    redirect_to "/tasks/#{task.id}"
   end
 
-  def update
-    "Put complete Algernon"
-  end
-
-  def patch
-    "put pray"
-  end
-
-  def destroy
-    "Delete complete Algernon"
+  def task_params
+    parameters = {
+      title: params[:title],
+      description: params[:description],
+      updated_at: Time.now.to_s
+    }
+    parameters[:created_at] = Time.now.to_s if params[:id].nil?
+    parameters
   end
 end

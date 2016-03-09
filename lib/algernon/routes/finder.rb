@@ -1,29 +1,43 @@
 module Algernon
   module Routes
-    class Finder
-      def initialize(endpoints)
-        @endpoints = endpoints
+    class Route
+      attr_reader :controller_name, :action, :path_regex, :url_placeholders
+      def initialize(path_regex, to, url_placeholders = {})
+        @controller_name, @action = get_controller_and_action(to)
+        @path_regex = path_regex
+        @url_placeholders = url_placeholders
       end
 
-      def locate_route(request)
-        @request = request
-        path = request.path_info
-        method = request.request_method.downcase.to_sym
-        result = @endpoints[method].detect do |endpoint|
-          find_path_with_pattern path, endpoint
-        end
-        return Route.new(@request, result[:class_and_method]) if result
+      def controller
+        Object.const_get(controller_name.camelify)
       end
 
-      def find_path_with_pattern(path, endpoint)
-        regex, placeholders = endpoint[:match]
-        if path =~ regex
-          match_data = Regexp.last_match
-          placeholders.each do |placeholder|
-            @request.update_param(placeholder, match_data[placeholder])
-          end
-          true
+      def get_url_parameters(actual_path)
+        parameters = {}
+        path = actual_path.split("/")
+        url_placeholders.each do |index, key|
+          parameters[key] = path[index.to_i]
         end
+        parameters
+      end
+
+      def check_path(path)
+        (path_regex =~ path) == 0
+      end
+
+      def ==(other)
+        controller_name == other.controller_name &&
+          action == other.action &&
+          path_regex == other.path_regex &&
+          url_placeholders == other.url_placeholders
+      end
+
+      private
+
+      def get_controller_and_action(to)
+        controller, action = to.split("#")
+        controller_name = controller + "_controller"
+        [controller_name, action]
       end
     end
   end
