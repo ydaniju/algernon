@@ -32,9 +32,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rack-test", "~> 0.6"
+  spec.add_development_dependency "pry-nav"
+  spec.add_development_dependency "pry"
 
   spec.add_runtime_dependency "rack", "~> 1.6.4"
   spec.add_runtime_dependency "erubis"
-  spec.add_runtime_dependency "pry"
-  spec.add_runtime_dependency "pry-nav"
+  spec.add_runtime_dependency "sqlite3"
 end
