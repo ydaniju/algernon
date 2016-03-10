@@ -34,7 +34,7 @@ module Algernon
 
     def default_response
       Rack::Response.new(
-        "<center><b>Algernon</center>",
+        "<center><b>Algernon::Penny wise, Pound foolish</center>",
         200,
         "Content-Type" => "text/html"
       )
