@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
-gem "coveralls", require: false
+ruby "2.2.3"
 gemspec

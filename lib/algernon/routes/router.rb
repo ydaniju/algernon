@@ -1,45 +1,80 @@
+require "algernon/routes/finder"
+require "algernon/routes/route"
+
 module Algernon
   module Routes
     class Router
+      include Algernon::Route
+      attr_accessor :routes, :url_placeholders, :part_regex
+
+      HTTP_VERBS = %w(get post put patch delete).freeze
+
+      def initialize
+        @routes = {}
+        @url_placeholders = {}
+        @part_regex = []
+        http_verb_creator
+      end
+
       def draw(&block)
         instance_eval(&block)
       end
 
-      [:get, :post, :put, :patch, :delete].each do |http_verb|
-        define_method(http_verb) do |path, to:|
-          path = "/#{path}" unless path[0] = "/"
-          class_and_method = controller_and_action(to)
-          @route_info = { path: path,
-                          match: match_for(path),
-                          class_and_method: class_and_method
-                      }
-          endpoints[http_verb] << @route_info
+      def has_routes?
+        true unless routes.empty?
+      end
+
+      def get_match(http_verb, path)
+        http_verb = http_verb.downcase
+        routes[http_verb].detect do |route|
+          route.check_path(path)
         end
       end
 
-      def root(destination)
-        get "/", to: destination
-      end
-
-      def endpoints
-        @endpoints ||= Hash.new { |hash, key| hash[key] = [] }
-      end
-
-      private
-
-      def match_for(path)
-        placeholders = []
-        path = path.gsub(/(:\w+)/) do |match|
-          placeholders << match[1..-1].freeze
-          "(?<#{placeholders.last}>[^/?#]+)"
+      def http_verb_creator
+        self.class.instance_eval do
+          HTTP_VERBS.each do |http_verb|
+            define_method(http_verb) do |path, to:|
+              process_and_store_route(http_verb, path, to)
+            end
+          end
         end
-        [/^#{path}$/, placeholders]
       end
 
-      def controller_and_action(path)
-        controller_path, action = path.split("#")
-        controller = "#{controller_path.capitalize}Controller"
-        [controller, action.to_sym]
+      def process_and_store_route(http_verb, path, to)
+        regex_parts, url_placeholders = extract_regex_and_placeholders(path)
+        path_regex = convert_regex_parts_to_path(regex_parts)
+        route_object = Algernon::Routes::Route.new(
+          path_regex, to, url_placeholders
+        )
+        routes[http_verb.downcase.freeze] ||= []
+        routes[http_verb.downcase] << route_object
+      end
+
+      def extract_regex_and_placeholders(path)
+        path.path_format!
+
+        self.part_regex = []
+        self.url_placeholders = {}
+        path.split("/").each_with_index do |path_part, index|
+          store_part_and_placeholder(path_part, index)
+        end
+
+        [part_regex, url_placeholders]
+      end
+
+      def store_part_and_placeholder(path_part, index)
+        if path_part.start_with?(":")
+          url_placeholders[index] = path_part.delete(":").freeze
+          part_regex << "[a-zA-Z0-9_]+"
+        else
+          part_regex << path_part
+        end
+      end
+
+      def convert_regex_parts_to_path(regex_match)
+        regex_string = "^" + regex_match.join("/") + "/*$"
+        Regexp.new(regex_string)
       end
     end
   end
