@@ -47,7 +47,5 @@ module Algernon
     def destroy_all
       DB.execute("DELETE FROM #{table_name}")
     end
-
-    # private :row_to_model
   end
 end

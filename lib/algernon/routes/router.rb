@@ -54,8 +54,8 @@ module Algernon
       def extract_regex_and_placeholders(path)
         path.path_format!
 
-        self.part_regex = []
-        self.url_placeholders = {}
+        @part_regex = []
+        @url_placeholders = {}
         path.split("/").each_with_index do |path_part, index|
           store_part_and_placeholder(path_part, index)
         end
