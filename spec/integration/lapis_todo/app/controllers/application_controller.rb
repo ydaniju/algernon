@@ -1,2 +1,2 @@
-class ApplicationController < Algernon::Controller::Controls
+class ApplicationController < Algernon::BaseController
 end
