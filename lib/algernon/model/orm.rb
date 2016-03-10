@@ -48,6 +48,6 @@ module Algernon
       DB.execute("DELETE FROM #{table_name}")
     end
 
-    private :row_to_model
+    # private :row_to_model
   end
 end

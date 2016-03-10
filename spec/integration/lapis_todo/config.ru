@@ -7,7 +7,7 @@ require_relative "config/routes.rb"
 
 app ||= Rack::Builder.new do
   use Rack::Reloader
-  use Rack::Static, urls: ["/stylesheets", "/images", "/javascripts"],
+  use Rack::Static, urls: ["/css", "/font-awesome", "/js", "/fonts", "/img"],
                     root: "app/assets"
 
   run LapisTodoApp
