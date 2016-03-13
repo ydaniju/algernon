@@ -91,7 +91,7 @@ end
 
 Algernon supports GET, DELETE, PATCH, POST, PUT requests. 
 
-In the sample config file, the second line indicates that GET requests to the root path of the application should be handled by the `index action of the FellowsController`.
+In the sample config file, the second line indicates that GET requests to the root path of the application should be handled by the `index action of the TasksController`.
 
 Thus an appropriate view named index.html.erb in the fellows folder is expected in the views folder. Instance variables set in the index action of the controller are passed to the Erubis template engine which renders the view.
 
@@ -149,22 +149,47 @@ All controllers should inherit from the BaseController class provided by Algerno
 A sample structure for a controller file is:
 
 ```ruby
-class FellowsController < Algernon::BaseController
+class TasksController < ApplicationController
   def index
     @tasks = Task.all
   end
 
   def new
+    @task = Task.new
+  end
+
+  def create
+    task = Task.create(task_params)
+    redirect_to "/tasks/#{task.id}"
   end
 
   def show
-    task
-    render :show_full
+    @task = Task.find(params[:id].to_i)
+  end
+
+  def edit
+    @task = Task.find(params[:id].to_i)
+  end
+
+  def update
+    @task = Task.find(params[:id].to_i)
+    @task.update(task_params)
+    redirect_to "/tasks/#{@task.id}"
   end
 
   def destroy
-    task.destroy
-    redirect_to "/"
+    Task.destroy(params[:id].to_i)
+    redirect_to "/tasks"
+  end
+
+  def task_params
+    parameters = {
+      title: params[:title],
+      description: params[:description],
+      updated_at: Time.now.to_s
+    }
+    parameters[:created_at] = Time.now.to_s if params[:id].nil?
+    parameters
   end
 end
 ```
@@ -175,9 +200,9 @@ Explicitly calling `render` to render template files is optional. If it's not ca
 
 
 ### Views
-Currently, view templates are handled through the Tilt gem, with the Erubis template engine. See https://github.com/rtomayko/tilt for more details.
+Currently, view templates are handled with the Erubis template engine. See https://rubygems.org/gems/erubis for more details.
 
-Views are mapped to actions in controllers. Thus the folder structure for storing views depends on the location of the controller/action. A view to be rendered for the new action in the SessionsController for example is saved as `new.html.erb` in the sessions folder, nested in the views folder. A sample structure for a view file is:
+Views are mapped to actions in controllers. Thus the folder structure for storing views depends on the location of the controller/action. A view to be rendered for the new action in the TasksController for example is saved as `new.html.erb` in the tasks folder, nested in the views folder. A sample structure for a view file is:
 
 ```erb
 <div class = "form-part container-fluid">
