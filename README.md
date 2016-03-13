@@ -1,4 +1,4 @@
-# Algernon
+#Algernon
 
 [![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/algernon/badge.svg?branch=master)](https://coveralls.io/github/andela-ydaniju/algernon?branch=master) [![Build Status](https://travis-ci.org/andela-ydaniju/algernon.svg?branch=master)](https://travis-ci.org/andela-ydaniju/algernon) [![Code Climate](https://codeclimate.com/github/andela-ydaniju/algernon/badges/gpa.svg)](https://codeclimate.com/github/andela-ydaniju/algernon)
 
@@ -22,20 +22,224 @@ Or install it yourself as:
 
 ## Usage
 
-Coming soon...
+Algernon is a tiny framewok built using the Rails way. It follows an MVC pattern. Models, Views and Controllers (MVC) are all systematically arranged in respective directories under the app directory.
 
-## Development
+```
+Algernon Application
+│   
+└───app
+|   └───assets
+|   └───controllers
+|   └───models
+|   └───views
+└───config
+|    └─── routes.rb
+|    └───application.rb
+└───database
+|    └───data.sqlite3
+└───config.ru
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+At the moment, the only database supported is SQLite3.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+## Initial Setup
+Algernon is built using Rack - a simple interface between webservers that support Ruby and Ruby frameworks. Thus, web apps built with the framework are initialized same way Rack apps are initlialized - through a `config.ru` file, which is parsed to determine appropriate configuration settings. A sample `config.ru` is:
+
+```ruby
+APP_ROOT ||= __dir__
+
+require File.expand_path("../config/application", __FILE__)
+
+LapisTodoApp = LapisTodo::Application.new
+require_relative "config/routes.rb"
+
+app ||= Rack::Builder.new do
+  use Rack::Reloader
+  use Rack::Static, urls: ["/css", "/font-awesome", "/js", "/fonts", "/img"],
+                    root: "app/assets"
+
+  run LapisTodoApp
+end
+
+run app
+```
+Algernon
+
+The first line of the sample config file requires the Algernon framework. 
+
+The second line sets a congstant used by the framework in searching for important files. This is required in order to map locations of important components in the web application. Thus it should be set by apps built on top of Algernon.  
+
+A sample Application class which inherits from the BaseApplication class provided by Algernon is then declared and initialized. This sample class is used to start up the web server, and inherits methods from the BaseApplication class to provide a rack-compatible response to requests. The declaration for the Application class could be moved into a separate class and then required in the config file.
+
+On instantiating the Application class, routes need to be set. This is done in line 11 of the config file. A block with the route methods called appropriately is passed to the prepare method exposed by the application. This block is evaluated, and routes are saved for processing. The declaration for the routes could be moved into a separate class and then required in the config file.
+
+On evaluating routes, required files need to be loaded. This is done by calling the `load_files` method of the Dependencies module, provided by Algernon. This loads current controllers/models, and adds the path to these folders to the `LOAD_PATH`.
+
+On the last line of the config file, the application is passed to the run method, which is evaluated by Rack to start up the web application on the default port - 9292.
+
+## Key Features
+
+### Routing
+Routing with Algernon deals with directing requests to the appropriate controllers. A sample route file is: 
+
+```ruby
+LapisTodoApp.routes.draw do
+  resources "tasks"
+  root "tasks#index"
+end
+```
+
+Algernon supports GET, DELETE, PATCH, POST, PUT requests. 
+
+In the sample config file, the second line indicates that GET requests to the root path of the application should be handled by the `index action of the FellowsController`.
+
+Thus an appropriate view named index.html.erb in the fellows folder is expected in the views folder. Instance variables set in the index action of the controller are passed to the Erubis template engine which renders the view.
+
+Resources creates a REST-compatible set of routes which handles CRUD requests dealing with fellows. The declaration is equivalent to writing these set of routes:
+
+```ruby
+get "/tasks", to: "tasks#index"
+get "/tasks/new", to: "tasks#new"
+post "/tasks", to: "tasks#create"
+get "/tasks/:id", to: "tasks#show"
+get "/tasks/:id/edit", to: "tasks#edit"
+patch "/tasks/:id", to: "tasks#update"
+put "/tasks/:id", to: "tasks#update"
+delete "/tasks/:id", to: "tasks#destroy"
+```
+
+
+### Models
+All models to be used with the Algernon framework are to inherit from the BaseRecord class provided by Algernon, in order to access the rich ORM functionalities provided. Although not as succinct as ActiveRecord, the BaseRecord class acts as an interface between the model class and its database representation. A sample model file is provided below:
+
+```ruby
+class Fellow < Algernon::BaseRecord
+  to_table :fellows
+  property :id, type: :integer, primary_key: true
+  property :first_name, type: :text, nullable: false
+  property :email, type: :boolean, nullable: false
+
+  create_table
+end
+```
+The `to_table` method provided stores the table name used while creating the table record in the database. 
+
+The `property` method is provided to declare table columns, and their attributes. The first argument to `property` is the column name, while subsequent hash arguments are used to provide information about attributes.
+
+The `type` argument represents the data type of the column. Supported data types by Algernon are:
+
+  * integer (for numeric values)
+  * boolean (for boolean values [true or false])
+  * text    (for alphanumeric values)
+
+The `primary_key` argument is used to specify that the column should be used as the primary key of the table. If this is an integer, the value is auto-incremented by the database.
+
+The `nullable` argument is used to specify whether a column should have null values, or not.
+
+While creating models, the id property declaration is optional. If this is is not provided, the Algernon ORM adds it automatically, and sets it as the primary key. Thus, it should only be set if you'd like to use a different type as the primary key.
+
+On passing in the table name, and its properties, a call should be made to the `create_table` method to persist the model to database by creating the table.
+
+
+### Controllers
+Controllers are key to the MVC structure, as they handle receiving requests, interacting with the database, and providing responses. Controllers are placed in the controllers folder, which is nested in the app folder.
+
+All controllers should inherit from the BaseController class provided by Algernon to inherit methods which simplify accessing request parameters and returning responses by rendering views.
+
+A sample structure for a controller file is:
+
+```ruby
+class FellowsController < Algernon::BaseController
+  def index
+    @tasks = Task.all
+  end
+
+  def new
+  end
+
+  def show
+    task
+    render :show_full
+  end
+
+  def destroy
+    task.destroy
+    redirect_to "/"
+  end
+end
+```
+
+Instance variables set by the controllers are passed to the routes while rendering responses. 
+
+Explicitly calling `render` to render template files is optional. If it's not called by the controller action, then it's done automatically by the framework with an argument that's the same name as the action. Thus, you can decide to call `render` explicitly when you want to render a view with a name different from the action.
+
+
+### Views
+Currently, view templates are handled through the Tilt gem, with the Erubis template engine. See https://github.com/rtomayko/tilt for more details.
+
+Views are mapped to actions in controllers. Thus the folder structure for storing views depends on the location of the controller/action. A view to be rendered for the new action in the SessionsController for example is saved as `new.html.erb` in the sessions folder, nested in the views folder. A sample structure for a view file is:
+
+```erb
+<div class = "form-part container-fluid">
+    <div class = "form-part-in row">
+        <div class="col-xs-4">&nbsp;</div>
+        <div class="">
+          <h2 class="form-tag">Create Task</h2>
+          <form class="" action="/tasks" method="post">
+            <label for="title" class="sr-only">Title</label>
+            <input type="text" id="title" class="form-control" placeholder="Title" name="title">
+            <label for="description" class="sr-only">Description</label>
+            <input type="text" id="description" class="form-control"  placeholder="Description" name="description">
+            </div>
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Create Task"/>
+          </form>
+        </div>
+        <div class="col-xs-4">&nbsp;</div>
+    </div>
+</div>
+```
+
+### External Dependencies
+The Algernon framework has a few dependencies. These are listed below, with links to source pages for each.
+
+  * sqlite3     - https://github.com/sparklemotion/sqlite3-ruby
+  * erubis      - https://rubygems.org/gems/erubis
+  * bundler     - https://github.com/bundler/bundler
+  * rake        - https://github.com/ruby/rake
+  * rack        - https://github.com/rack/rack
+  * rack-test   - https://github.com/brynary/rack-test
+
+## Testing
+
+Before running tests, run the following command to install dependencies
+
+        $ bundle install
+
+To test the web framework, run the following command to carry out all tests:
+
+        $ bundle exec rake
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/andela-ydaniju/algernon. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+1. Fork it by visiting - https://github.com/andela-ydaniju/algernon/fork
+
+2. Create your feature branch
+
+        $ git checkout -b new_feature
+    
+3. Contribute to code
+
+4. Commit changes made
+
+        $ git commit -a -m 'descriptive_message_about_change'
+    
+5. Push to branch created
+
+        $ git push origin new_feature
+    
+6. Then, create a new Pull Request
 
 ## License
-
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
 
