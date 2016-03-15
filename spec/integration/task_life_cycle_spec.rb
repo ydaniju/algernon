@@ -1,17 +1,16 @@
 require "spec_helper"
 describe "Task lifecycle", type: :feature do
   it "creates, shows, updates and deletes tasks", js: true do
-    visit "/"
-    click_link_or_button "New Task"
-    fill_in "Title", with: "Scuba Diving"
-    fill_in "Description", with: "Go to the deepest Ocean"
-    click_button "Create Task"
+    visit "/tasker"
 
-    visit "/"
-    click_link_or_button "New Task"
-    fill_in "Title", with: "Fly"
-    fill_in "Description", with: "India Airways"
-    click_button "Create Task"
+    title = ["Scuba Diving", "Fly", "Play"]
+    description = ["Go to the deepest Ocean", "India Airways", "Football"]
+
+    title.length.times do
+      i = 0
+      task_creator(title[i], description[i])
+      i + 1
+    end
 
     click_link "Edit"
 
@@ -20,10 +19,13 @@ describe "Task lifecycle", type: :feature do
 
     count = Task.all.length
 
-    expect(count).to eq 2
+    expect(count).to eq 3
 
     visit "/tasks/1"
     click_link "Delete"
+
+    task_2 = Task.find(2)
+    task_2.destroy
 
     Task.destroy_all
 

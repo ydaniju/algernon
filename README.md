@@ -67,9 +67,9 @@ Algernon
 
 The first line of the sample config file requires the Algernon framework. 
 
-The second line sets a congstant used by the framework in searching for important files. This is required in order to map locations of important components in the web application. Thus it should be set by apps built on top of Algernon.  
+The second line sets a constant used by the framework in searching for important files. This is required in order to map locations of important components in the web application. Thus it should be set by apps built on top of Algernon.  
 
-A sample Application class which inherits from the BaseApplication class provided by Algernon is then declared and initialized. This sample class is used to start up the web server, and inherits methods from the BaseApplication class to provide a rack-compatible response to requests. The declaration for the Application class could be moved into a separate class and then required in the config file.
+A sample Application class which inherits from the Algernon::Application class is then declared and initialized. This sample class is used to start up the web server, and inherits methods from the BaseApplication class to provide a rack-compatible response to requests. The declaration for the Application class could be moved into a separate class and then required in the config file.
 
 On instantiating the Application class, routes need to be set. This is done in line 11 of the config file. A block with the route methods called appropriately is passed to the prepare method exposed by the application. This block is evaluated, and routes are saved for processing. The declaration for the routes could be moved into a separate class and then required in the config file.
 
