@@ -1,10 +1,10 @@
-require "algernon/routes/finder"
-require "algernon/routes/route"
+require "algernon/routing/finder"
+require "algernon/routing/route"
 
 module Algernon
-  module Routes
+  module Routing
     class Router
-      include Algernon::Route
+      include Algernon::Routing::Route
       attr_accessor :routes, :url_placeholders, :part_regex
 
       HTTP_VERBS = %w(get post put patch delete).freeze
@@ -32,7 +32,7 @@ module Algernon
       end
 
       def http_verb_creator
-        self.class.instance_eval do
+        self.class.class_eval do
           HTTP_VERBS.each do |http_verb|
             define_method(http_verb) do |path, to:|
               process_and_store_route(http_verb, path, to)
@@ -44,7 +44,7 @@ module Algernon
       def process_and_store_route(http_verb, path, to)
         regex_parts, url_placeholders = extract_regex_and_placeholders(path)
         path_regex = convert_regex_parts_to_path(regex_parts)
-        route_object = Algernon::Routes::Route.new(
+        route_object = Algernon::Routing::Finder.new(
           path_regex, to, url_placeholders
         )
         routes[http_verb.downcase.freeze] ||= []

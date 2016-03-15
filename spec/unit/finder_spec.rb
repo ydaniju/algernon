@@ -1,7 +1,7 @@
 require "spec_helper"
-require "unit/helpers/route.rb"
+require "unit/helpers/finder.rb"
 
-RSpec.describe Algernon::Routes::Route do
+RSpec.describe Algernon::Routing::Finder do
   let(:route) do
     Route.new
   end

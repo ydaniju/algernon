@@ -1,11 +1,11 @@
 require "spec_helper"
 require "unit/helpers/router"
 
-RSpec.describe Algernon::Routes::Router do
+RSpec.describe Algernon::Routing::Router do
   let(:router) { Router.new }
 
   it "should have a valid factory" do
-    expect(router).to be_a(Algernon::Routes::Router)
+    expect(router).to be_a(Algernon::Routing::Router)
   end
 
   it { expect(router.routes).to be_a(Hash) }
@@ -20,7 +20,7 @@ RSpec.describe Algernon::Routes::Router do
 
   it "gets a matching routes for a given path using 'get_match'" do
     path_regex = Regexp.new("^/todos/[a-zA-Z0-9_]+/foo/*$")
-    route = Algernon::Routes::Route.new(path_regex, "todos#foo", 2 => "id")
+    route = Algernon::Routing::Finder.new(path_regex, "todos#foo", 2 => "id")
 
     expect(router.get_match("get", "/todos/23/foo")).to eq(route)
   end
