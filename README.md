@@ -71,9 +71,7 @@ The second line sets a constant used by the framework in searching for important
 
 A sample Application class which inherits from the Algernon::Application class is then declared and initialized. This sample class is used to start up the web server, and inherits methods from the BaseApplication class to provide a rack-compatible response to requests. The declaration for the Application class could be moved into a separate class and then required in the config file.
 
-On instantiating the Application class, routes need to be set. This is done in line 11 of the config file. A block with the route methods called appropriately is passed to the prepare method exposed by the application. This block is evaluated, and routes are saved for processing. The declaration for the routes could be moved into a separate class and then required in the config file.
-
-On evaluating routes, required files need to be loaded. This is done by calling the `load_files` method of the Dependencies module, provided by Algernon. This loads current controllers/models, and adds the path to these folders to the `LOAD_PATH`.
+On instantiating the Application class, routes need to be set. In the ```routes.rb``` in the config direectory. A block with the route methods called appropriately is passed to the prepare method exposed by the application. This block is evaluated, and routes are saved for processing.
 
 On the last line of the config file, the application is passed to the run method, which is evaluated by Rack to start up the web application on the default port - 9292.
 
@@ -113,11 +111,13 @@ delete "/tasks/:id", to: "tasks#destroy"
 All models to be used with the Algernon framework are to inherit from the BaseRecord class provided by Algernon, in order to access the rich ORM functionalities provided. Although not as succinct as ActiveRecord, the BaseRecord class acts as an interface between the model class and its database representation. A sample model file is provided below:
 
 ```ruby
-class Fellow < Algernon::BaseRecord
-  to_table :fellows
-  property :id, type: :integer, primary_key: true
-  property :first_name, type: :text, nullable: false
-  property :email, type: :boolean, nullable: false
+class Task < Algernon::Model
+  to_table :tasks
+
+  property :title, type: :varchar, nullable: false
+  property :description, type: :text
+  property :created_at, type: :datetime
+  property :updated_at, type: :datetime
 
   create_table
 end
