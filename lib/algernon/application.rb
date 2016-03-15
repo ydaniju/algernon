@@ -9,7 +9,7 @@ module Algernon
     alias_method :routes, :router
 
     def initialize
-      @router = Routes::Router.new
+      @router = Routing::Router.new
     end
 
     def call(env)
