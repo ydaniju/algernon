@@ -23,3 +23,11 @@ RSpec.shared_context type: :feature do
     Task.create_table
   end
 end
+
+def task_creator(title, description)
+  visit "/"
+  click_link_or_button "New Task"
+  fill_in "Title", with: title
+  fill_in "Description", with: description
+  click_button "Create Task"
+end
