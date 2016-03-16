@@ -1,6 +1,6 @@
-require "algernon/routes/finder"
+require "algernon/routing/finder"
 
-class Route < Algernon::Routes::Route
+class Route < Algernon::Routing::Finder
   def initialize
     path_regex = Regexp.new("/todos/[a-zA-Z0-9_]+")
     to = "todos#index"

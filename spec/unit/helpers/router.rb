@@ -1,6 +1,6 @@
-require "algernon/routes/router"
+require "algernon/routing/router"
 
-class Router < Algernon::Routes::Router
+class Router < Algernon::Routing::Router
   def initialize
     super
 

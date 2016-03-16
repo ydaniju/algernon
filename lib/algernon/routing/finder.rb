@@ -1,6 +1,6 @@
 module Algernon
-  module Routes
-    class Route
+  module Routing
+    class Finder
       attr_reader :controller_name, :action, :path_regex, :url_placeholders
       def initialize(path_regex, to, url_placeholders = {})
         @controller_name, @action = get_controller_and_action(to)
