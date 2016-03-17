@@ -1,6 +1,6 @@
 require "rack"
-require "utility/request_handler"
-require "utility/method_override"
+require "algernon/controller/request_handler"
+require "algernon/controller/method_override"
 
 module Algernon
   class Application
