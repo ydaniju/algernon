@@ -1,5 +1,5 @@
 module Algernon
-  class RequestHandler
+  class Dispatcher
     attr_reader :request, :route, :response
 
     def initialize(request, route)
