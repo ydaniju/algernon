@@ -11,7 +11,7 @@ module Algernon
     private
 
     def process_request
-      params = collage_parameters
+      params = combine_parameters
 
       request.instance_variable_set "@params", params
 
@@ -21,7 +21,7 @@ module Algernon
       @response = controller_response(controller_class, route.action.to_sym)
     end
 
-    def collage_parameters
+    def combine_parameters
       route_url_params = route.get_url_parameters(request.path_info)
       request.params.merge(route_url_params)
     end

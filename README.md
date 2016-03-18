@@ -1,6 +1,6 @@
 #Algernon
 
-[![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/algernon/badge.svg?branch=master)](https://coveralls.io/github/andela-ydaniju/algernon?branch=master) [![Build Status](https://travis-ci.org/andela-ydaniju/algernon.svg?branch=master)](https://travis-ci.org/andela-ydaniju/algernon) [![Code Climate](https://codeclimate.com/github/andela-ydaniju/algernon/badges/gpa.svg)](https://codeclimate.com/github/andela-ydaniju/algernon)
+[![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/algernon/badge.svg?branch=master)](https://coveralls.io/github/andela-ydaniju/algernon?branch=master) [![Build Status](https://travis-ci.org/andela-ydaniju/algernon.svg?branch=master)](https://travis-ci.org/andela-ydaniju/algernon) [![Code Climate](https://codeclimate.com/github/andela-ydaniju/algernon/badges/gpa.svg)](https://codeclimate.com/github/andela-ydaniju/algernon) [![Gem Version](https://badge.fury.io/rb/algernon.svg)](https://badge.fury.io/rb/algernon)
 
 Algernon is a Ruby MVC web framework.
 
@@ -229,6 +229,7 @@ The Algernon framework has a few dependencies. These are listed below, with link
 
   * sqlite3     - https://github.com/sparklemotion/sqlite3-ruby
   * erubis      - https://rubygems.org/gems/erubis
+  * tilt        - https://github.com/rtomayko/tilt
   * bundler     - https://github.com/bundler/bundler
   * rake        - https://github.com/ruby/rake
   * rack        - https://github.com/rack/rack
