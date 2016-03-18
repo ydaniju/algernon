@@ -1,5 +1,5 @@
 require "rack"
-require "algernon/controller/request_handler"
+require "algernon/controller/dispatcher"
 require "algernon/utility/method_override"
 
 module Algernon
@@ -25,7 +25,7 @@ module Algernon
     def respond_to_request
       route = router.get_match(request.request_method, request.path_info)
       if route
-        handler = RequestHandler.new(request, route)
+        handler = Dispatcher.new(request, route)
         handler.response
       else
         page_not_found
