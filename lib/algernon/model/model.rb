@@ -87,7 +87,7 @@ module Algernon
       end
 
       def columns
-        @columns_array ||= fields.keys
+        @model_columns ||= fields.keys
       end
     end
 
