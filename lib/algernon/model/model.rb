@@ -6,11 +6,7 @@ module Algernon
   class Model
     extend Algernon::TableMaker
     extend Algernon::Orm
-
-    DB ||= SQLite3::Database.new(File.join("database", "data.sqlite"))
-
-    def initialize
-    end
+    DB = Orm::DB
 
     def save
       if id
@@ -46,7 +42,7 @@ module Algernon
     end
 
     def columns_except_id
-      self.class.columns_array.without_id.with_value(self)
+      self.class.columns.without_id.with_value(self)
     end
 
     def values_placeholders
@@ -90,7 +86,7 @@ module Algernon
         DB.execute(query)
       end
 
-      def columns_array
+      def columns
         @columns_array ||= fields.keys
       end
     end
