@@ -12,7 +12,7 @@ module Algernon
     end
 
     def all
-      fields = columns_array.join(", ")
+      fields = columns.join(", ")
       data = DB.execute("SELECT id, #{fields} FROM #{table_name}")
       data.map! do |row|
         row_to_model(row)
@@ -24,7 +24,7 @@ module Algernon
     def row_to_model(row)
       model = new
 
-      columns_array.each_with_index do |field, index|
+      columns.each_with_index do |field, index|
         model.send("#{field}=", row[index + 1]) if row
       end
 
@@ -32,7 +32,7 @@ module Algernon
     end
 
     def find(id)
-      fields = columns_array.join(", ")
+      fields = columns.join(", ")
       row = DB.execute(
         "SELECT id, #{fields} FROM #{table_name} WHERE id = ?",
         id
