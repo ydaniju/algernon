@@ -1,2 +1,1 @@
-class TodosController
-end
+class TodosController; end
