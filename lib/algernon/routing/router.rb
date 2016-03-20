@@ -21,7 +21,7 @@ module Algernon
       end
 
       def has_routes?
-        true unless routes.empty?
+        routes.any?
       end
 
       def get_match(http_verb, path)
