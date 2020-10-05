@@ -1,4 +1,4 @@
-#Algernon
+# Algernon
 
 [![Coverage Status](https://coveralls.io/repos/github/andela-ydaniju/algernon/badge.svg?branch=master)](https://coveralls.io/github/andela-ydaniju/algernon?branch=master) [![Build Status](https://travis-ci.org/andela-ydaniju/algernon.svg?branch=master)](https://travis-ci.org/andela-ydaniju/algernon) [![Code Climate](https://codeclimate.com/github/andela-ydaniju/algernon/badges/gpa.svg)](https://codeclimate.com/github/andela-ydaniju/algernon) [![Gem Version](https://badge.fury.io/rb/algernon.svg)](https://badge.fury.io/rb/algernon)
 
