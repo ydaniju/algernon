@@ -261,14 +261,9 @@ To test the web framework, run the following command to carry out all tests:
     
 5. Push to branch created
 
-        $ git push origin new_feature
+       $ git push origin new_feature
     
 6. Then, create a new Pull Request
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
-
-
-
-
